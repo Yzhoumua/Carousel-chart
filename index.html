@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        .box{overflow: hidden;
+            width:900px;
+            height:400px;
+            margin: 80px auto;
+            position: relative;
+           
+        }
+        .lf{ opacity: 0.5;
+            left: 0;
+            top: 170px;
+            visibility: 0.5;
+            position: absolute;
+            width: 45px;
+            height: 100px;
+            background-color: rgba(22, 21, 21, 0.2);
+            z-index: 9999;
+            cursor:pointer;
+        }
+        .rg{
+            opacity: 0.5;
+            top: 170px;
+            right: 0;
+            position: absolute;
+            width: 45px;
+            height: 100px;
+            background-color: rgba(22, 21, 21, 0.2);
+            z-index: 9999;
+            cursor:pointer;
+        }
+        .boxa ul{
+            width:99999px;
+            height: 400px;
+            position: absolute;
+            transition:all 0.5s;
+        }
+        .boxa ul li{
+            list-style: none;
+            float: left;
+           
+        }
+        .al{
+            position: absolute;
+            bottom: 50px;
+            left: 330px;
+            z-index: 8888;
+        }
+        .al span{
+            float: left;
+            width: 20px;
+            height: 20px;
+            margin-left: 20px;
+            border-radius: 50%;
+            border: 1px solid black;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class = 'box'>
+          <div class = 'boxa'>
+              <div title="0" class = "rg"><img src="rg.png" ></div>
+              <div title="1" class = "lf"><img src="lf.png" ></div>
+          </div>
+
+          <div class = 'boxa'>
+              <ul>
+                  <li><img src="1.png" ></li>
+                  <li><img src="2.jpg" ></li>
+                  <li><img src="3.jpg" ></li>
+                  <li><img src="4.jpg" ></li>
+                  <li><img src="5.jpg" ></li>
+              </ul>
+          </div>
+          <div class="al">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
+    </div>
+    <script>
+        var div = document.getElementsByTagName('div')[0];
+        var ul = document.getElementsByTagName('ul')[0];
+        var li = document.getElementsByTagName('li');
+        var span = document.getElementsByTagName('span');
+        var boxa = document.getElementsByClassName('boxa');
+        var butns = boxa[0].getElementsByTagName("div");
+        var timer = 0;
+        var count = 0;
+        var key = false;
+        var de = div.firstChild;
+    span[0].style.backgroundColor = 'black';
+    
+    function dsq() {
+            timer = setInterval(function () {
+                if (key == false) {
+                    count++;
+                    ul.style.transform = "translate(" + -900 * count + "px)";
+                    if (count >= li.length - 1) {
+                        count = li.length - 1;
+                        key = true;
+                    }
+                }else{
+                    count--;
+                    ul.style.transform = "translate( "+ -900 * count +"px)"
+                    if(count <= 0){
+                        count = 0;
+                        key = false;
+                    }
+                }
+                for(var i = 0; i < span.length; i ++){
+                    span[i].style.backgroundColor = '';
+                }
+                span[count].style.backgroundColor = "black";
+            },2000)
+            //底部按钮
+            for(var i = 0; i < span.length; i ++){
+                span[i].index = i;
+                span[i].onmouseover = function(){
+                    clearInterval(timer);
+                    for(var a = 0; a < span.length; a ++){
+                    span[a].style.backgroundColor = "";
+                }
+                span[this.index].style.backgroundColor = "black";
+                
+                if(this.index == 5){
+                    key = true;
+                }
+                if(this.index == 0){
+                    key = false;
+                }
+                count = this.index;
+                ul.style.transform = "translate("+ -900 * this.index + "px)"
+                }
+                span[i].onmouseout = function(){
+                dsq();
+            }    
+            }
+            //左右按钮
+            for(var i = 0; i < butns.length; i ++){
+                butns[i].onmouseover = function(){
+                    clearInterval(timer);
+                }
+                butns[i].onmouseout = function(){
+                    dsq();
+                }
+               butns[i].onclick = function() {
+                if(this.title == 0){
+                    count++;
+                    if(count > li.length -1){
+                        count = 0;
+                    }
+                }else{
+                    count--;
+                    if(count < 0){
+                        count = li.length -1;
+                    }
+                }
+                ul.style.transform = 'translate(' + -900 *count +'px)';
+                for(var i = 0; i < span.length; i ++){
+                    span[i].style.backgroundColor = "";
+                }
+                span[count].style.backgroundColor = 'black';
+               }
+            }
+        }
+        dsq();
+    </script>
+</body>
+</html>

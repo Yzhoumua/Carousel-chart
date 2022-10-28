@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        li{
+            list-style: none;
+        }
+      .box{
+          width: 900px;
+          height: 400px;
+          margin: 0 auto;
+          position: relative;
+          overflow: hidden;
+      }
+      ul{
+          width: 9999px;;
+          position:absolute;
+          z-index: 88;
+      }
+      ul li{
+          float: left;
+      }
+      .lf,.rg{
+          position: absolute;
+          z-index: 99;
+          cursor: pointer;
+          opacity: 0.5;
+      }
+      .lf{
+          top:170px;
+          left:0;
+      }
+      .rg{
+          top:170px;
+          right:0;
+      }
+      .al{
+          width: 30px;
+          height:30px;
+          border-radius: 50%;
+          border:1px solid black;
+          float: left;
+          margin-left: 5px;
+          cursor: pointer;
+      }
+      .alb{
+        width: 195px;
+        height: 30px;
+        position:absolute;
+          bottom: 30px;
+          left:330px;
+          z-index: 92;
+      }
+      
+    </style>
+</head>
+<body>
+    <div class = "box">
+        <div class = "zy">
+            <span class="lf" title="0"><img src = "lf.png" ></span>
+            <span class="rg" title="1"><img src = "rg.png" ></span>
+        </div>
+        <ul style = "left:0">
+            <li><img src = "1.png" ></li>
+            <li><img src = "2.jpg" ></li>
+            <li><img src = "3.jpg" ></li>
+            <li><img src = "4.jpg" ></li>
+            <li><img src = "5.jpg" ></li>
+        </ul>
+        <div class = "alb">
+            <div class = "al"></div>
+            <div class = "al"></div>
+            <div class = "al"></div>
+            <div class = "al"></div>
+            <div class = "al"></div>
+        </div>
+    </div>
+    <script>
+        var ul = document.getElementsByTagName('ul')[0];
+            var divzy = document.getElementsByClassName('zy')[0];
+            var al = document.getElementsByClassName('al');
+            var span = document.getElementsByTagName('span');
+            var count = 0;
+            var key = false;
+            var timer = 0;
+            al[0].style.backgroundColor = "black"
+            function lbt() {
+                timer = setInterval(function () {
+                    if (key == false) {
+                        count++;
+                        ul.style.left = -900 * count + "px";
+                        if (count == 4) {
+                            key = true;
+                        }
+                    } else {
+                        count--;
+                        ul.style.left = -900 * count + "px";
+                        if (count == 0) {
+                            key = false;
+                        }
+                    }
+                    for (var i = 0; i < al.length; i++) {
+                        for (var i = 0; i < al.length; i++) {
+                            al[i].style.backgroundColor = "";
+                        }
+                        al[count].style.backgroundColor = "black";
+                    }
+                }, 2000)
+
+
+
+                for (var i = 0; i < span.length; i++) {
+                    span[i].onmousemove = function () {
+                        clearInterval(timer);
+                    }
+                    span[i].onmouseout = function () {
+                        lbt();
+                    }
+                    span[i].onclick = function () {
+                        if (this.title == 1) {
+                            count++;
+                            if (count === al.length - 1) {
+                                count = 0;
+                            }
+                        } else {
+                            count--;
+                            if (count < 0) {
+                                count = al.length - 1;
+                            }
+                        }
+                        ul.style.left = -900 * count + "px";
+                        for (var i = 0; i < al.length; i++) {
+                            al[i].style.backgroundColor = "";
+                        } 
+                    al[count].style.backgroundColor = "black";
+                    }
+                }
+
+                for(var i = 0; i < al.length; i ++){
+                   al[i].index = i;
+                   al[i].onmousemove = function(){
+                   
+                       clearInterval(timer);
+                       for(var i = 0; i < al.length; i ++){
+                           al[i].style.backgroundColor = ""
+                       }
+                    al[this.index].style.backgroundColor = "black";
+                    if(this.index == 4){
+                        key = true;
+                    }
+                    if(this.index == 0){
+                        key = false;
+                    }
+                    count = this.index;
+                   ul.style.left = -900 * this.index + "px";
+                   } 
+                   al[i].onmouseout = function(){
+                       lbt();
+                   }
+                }
+            }
+            lbt()
+    </script>
+</body>
+</html>
